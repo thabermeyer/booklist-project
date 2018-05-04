@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+          box-sizing: inherit; }
+
+html {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-size: 62.5%; }
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  line-height: 1.6; }
+
+.container {
+  max-width: 60rem;
+  margin: auto; }
+
+.header {
+  width: 100%;
+  padding: 3rem;
+  font-size: 3rem;
+  color: #fff;
+  background-color: #e74c3c;
+  margin-bottom: 3rem; }
