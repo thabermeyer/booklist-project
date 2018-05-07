@@ -1,0 +1,73 @@
+.book {
+
+    &__form {
+
+        display: flex;
+        flex-direction: column;
+
+        font-size: 1.7rem;
+
+    }
+
+    &__title {
+
+        margin-bottom: .5rem;
+
+    }
+
+    &__input {
+
+        margin-bottom: 2rem;
+
+        font-size: inherit;
+        padding: 1rem 1rem;
+
+    }
+
+    &__btn {
+
+        padding: 1.5rem 1rem;
+        border: none;
+
+        background-color: $color-primary-dark;
+        color: #fff;
+        font-size: inherit;
+
+    }
+
+    &__log {
+
+        margin-top: 8rem;
+
+        font-size: 1.7rem;
+
+    }
+
+    &__table {
+
+        display: grid;
+        grid-template-columns: 3fr 2fr 1fr 10px;
+
+    }
+
+    &__item {
+
+        padding: 1rem 0;
+        border-bottom: .1rem solid grey;
+
+        &--header {
+
+            font-size: inherit;
+            font-weight: 400;
+        
+        }
+
+        &--list-item {
+
+            padding: 1.5rem 0;
+
+        }
+
+    }
+
+}

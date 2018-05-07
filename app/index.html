@@ -20,26 +20,47 @@
 
     <header class="header">Book List App</header>
 
-    <div class="container">
+    <div class="container__top">
 
-        <div class="book-form">
+        <div class="book__form">
 
-            <label for="book-title">Book Title</label>
-            <input type="text">
+            <label class="book__title" for="book__title">Title</label>
+            <input type="text" id="book__title" class="book__input">
 
-            <label for="book-title">Author</label>
-            <input type="text">
+            <label class="book__title" for="book__author">Author</label>
+            <input type="text" id="book__author" class="book__input">
 
-            <label for="book-title">ISBN</label>
-            <input type="text">
+            <label class="book__title" for="book__ISBN">ISBN</label>
+            <input type="text" id="book__ISBN" class="book__input">
 
-            <input type="submit" value="Submit">
+            <input type="submit" value="Add Book" class="book__btn">
 
         </div>
 
-        <div class="book-log">
+    </div>
 
-            
+    <div class="container__bottom">
+
+        <div class="book__log">
+
+            <div class="book__table">
+
+                <div class="book__item book__item--header">Title</div>
+                <div class="book__item book__item--header">Author</div>
+                <div class="book__item book__item--header">ISBN</div>
+                <div class="book__item book__item--header">&nbsp;</div>
+
+                <div class="book__item book__item--list-item">Don Quixote</div>
+                <div class="book__item book__item--list-item">Miguel de Cervantes</div>
+                <div class="book__item book__item--list-item">123456789</div>
+                <div class="book__item book__item--list-item">X</div>
+
+                <div class="book__item book__item--list-item">The Chosen</div>
+                <div class="book__item book__item--list-item">Chaim Potok</div>
+                <div class="book__item book__item--list-item">123456789</div>
+                <div class="book__item book__item--list-item">X</div>
+
+            </div>
 
         </div>
 

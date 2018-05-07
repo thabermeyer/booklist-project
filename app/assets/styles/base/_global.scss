@@ -23,9 +23,16 @@ body {
 
 }
 
-.container {
+.container__top {
 
     max-width: 60rem;
+    margin: auto;
+
+}
+
+.container__bottom {
+
+    max-width: 120rem;
     margin: auto;
 
 }
