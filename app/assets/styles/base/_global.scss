@@ -36,3 +36,28 @@ body {
     margin: auto;
 
 }
+
+.alert {
+
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding: 1.5rem 3rem;
+    margin-bottom: 2rem;
+    text-align: center;
+
+    &--success {
+
+        background-color: $color-success-light;
+        color: $color-success;
+
+    }
+
+    &--danger {
+
+        background-color: $color-danger-light;
+        color: $color-danger;
+
+    }
+
+}

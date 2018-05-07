@@ -1,266 +1,133 @@
-// Define UI Variables
+// Book Constructor
 
-const form = document.querySelector('.task-input__form');
-const taskInput = document.querySelector('.task-input__task');
-const taskBtn = document.querySelector('.task-input__btn');
-const filter = document.querySelector('.task-list__filter');
-const taskList = document.querySelector('.task-list__list');
-const clearBtn = document.querySelector('.task-list__btn');
+function Book(title, author, isbn) {
 
-// Load all event listeners
-
-loadEventListeners();
-
-function loadEventListeners() {
-
-    // DOM Load event
-
-    document.addEventListener('DOMContentLoaded', getTasks);
-
-    // Add task event
-
-    form.addEventListener('submit', addTask);
-
-    // Remove task event
-
-    taskList.addEventListener('click', removeTask)
-
-    // Clear task event
-
-    clearBtn.addEventListener('click', clearTasks)
-
-    // Filter task event
-
-    filter.addEventListener('keyup', filterTasks)
+    this.title = title;
+    this.author = author;
+    this.isbn = isbn;
 
 }
 
-// Get Tasks from Local Storage
+// UI Constructor
 
-function getTasks() {
+function UI() {
 
-    let tasks;
 
-    if(localStorage.getItem('tasks') === null) {
 
-        tasks = [];
+}
+
+// Add book to list
+
+UI.prototype.addBookToList = function(book) {
+
+    const list = document.querySelector('.book__table');
+
+    list.innerHTML += `
+    
+        <div class="book__item book__item--list-item">${book.title}</div><div class="book__item book__item--list-item">${book.author}</div><div class="book__item book__item--list-item">${book.isbn}</div><div class="book__item book__item--list-item"><a href="#" class="book__delete">X</a></div>
+    
+    `;
+        
+}
+
+// Clear fields
+
+UI.prototype.clearFields = function() {
+
+    document.getElementById('book__title').value = '';
+    document.getElementById('book__author').value = '';
+    document.getElementById('book__isbn').value = '';
+
+}
+
+// Show alert
+
+UI.prototype.showAlert = function(message, className) {
+
+    const div = document.createElement('div');
+    div.className = `alert ${className}`;
+    div.appendChild(document.createTextNode(message));
+
+    const container = document.querySelector('.container__top');
+    const form = document.querySelector('.book__form');
+
+    container.insertBefore(div, form);
+
+    setTimeout(function() {
+
+        document.querySelector('.alert').remove();
+
+    }, 2000);
+
+}
+
+// Delete book from list
+
+UI.prototype.deleteBook = function(target) {
+
+    target.parentElement.previousSibling.previousSibling.previousSibling.remove();
+    target.parentElement.previousSibling.previousSibling.remove();
+    target.parentElement.previousSibling.remove();
+    target.parentElement.remove();
+
+}
+
+// Event Listeners
+
+document.querySelector('.book__btn').addEventListener('click', function() {
+
+    // Get form values
+
+    const title = document.getElementById('book__title').value;
+    const author = document.getElementById('book__author').value;
+    const isbn = document.getElementById('book__isbn').value;
+
+    // Instantiate book
+
+    const book = new Book(title, author, isbn);
+
+    // Instantiate UI
+
+    const ui = new UI();
+
+    // Validate
+
+    if(title === '' || author === '' || isbn === '') {
+
+        ui.showAlert('Please fill in all fields', 'alert--danger');
 
     } else {
 
-        tasks = JSON.parse(localStorage.getItem('tasks'));
+        // Add book to list
+
+        ui.addBookToList(book);
+
+        ui.showAlert('Book added', 'alert--success');
+
+        // Clear input fields
+
+        ui.clearFields();
 
     }
 
-    tasks.forEach((task) => {
+});
 
-        // Create li element
+document.querySelector('.book__table').addEventListener('click', function(e) {
 
-        const li = document.createElement('li');
+    // Instantiate UI
 
-        // Add class
+    const ui = new UI();
 
-        li.className = 'task-list__list-item';
+    // Delete book
 
-        // Create text node and append to li
+    if(e.target.className === 'book__delete') {
 
-        li.appendChild(document.createTextNode(task));
+        ui.deleteBook(e.target);
 
-        // Create new link element
-
-        const link = document.createElement('a');
-
-        // Add class
-
-        link.className = 'task-list__list-item-icon delete-item';
-
-        // Add icon HTML
-
-        link.innerHTML = '<i class="fa fa-remove"></i>';
-
-        // Append link to li
-
-        li.appendChild(link);
-
-        // Append li to ul
-
-        taskList.appendChild(li);
-
-    });
-
-}
-
-// Add Task
-
-function addTask(e) {
-
-    if(taskInput.value === '') {
-
-        alert('Add a task');
+        ui.showAlert('Book deleted', 'alert--success');
 
     }
-
-    // Create li element
-
-    const li = document.createElement('li');
-
-    // Add class
-
-    li.className = 'task-list__list-item';
-
-    // Create text node and append to li
-
-    li.appendChild(document.createTextNode(taskInput.value));
-
-    // Create new link element
-
-    const link = document.createElement('a');
-
-    // Add class
-
-    link.className = 'task-list__list-item-icon delete-item';
-
-    // Add icon HTML
-
-    link.innerHTML = '<i class="fa fa-remove"></i>';
-
-    // Append link to li
-
-    li.appendChild(link);
-
-    // Append li to ul
-
-    taskList.appendChild(li);
-
-    // Store in local storage
-
-    storeTaskInLocalStorage(taskInput.value);
-
-    // Clear input
-
-    taskInput.value = '';
 
     e.preventDefault();
 
-}
-
-// Store Task
-
-function storeTaskInLocalStorage(task) {
-
-    let tasks;
-
-    if(localStorage.getItem('tasks') === null) {
-
-        tasks = [];
-
-    } else {
-
-        tasks = JSON.parse(localStorage.getItem('tasks'));
-
-    }
-
-    tasks.push(task);
-
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-
-}
-
-// Remove Task
-
-function removeTask(e) {
-
-    if(e.target.parentElement.classList.contains('delete-item')) {
-
-        if(confirm('Are you sure you want to delete this task?')) {
-
-            e.target.parentElement.parentElement.remove();
-
-            // Remove from local storage
-
-            removeTaskFromLocalStorage(e.target.parentElement.parentElement);
-
-        }
-
-    }
-
-}
-
-// Remove from Local Storage
-
-function removeTaskFromLocalStorage(taskItem) {
-
-    let tasks;
-
-    if(localStorage.getItem('tasks') === null) {
-
-        tasks = [];
-
-    } else {
-
-        tasks = JSON.parse(localStorage.getItem('tasks'));
-
-    }
-
-    tasks.forEach((task, index) => {
-
-        if(taskItem.textContent === task) {
-
-            tasks.splice(index, 1);
-
-        }
-
-    });
-
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-
-}
-
-// Clear All Tasks
-
-function clearTasks() {
-
-    if(confirm('Are you sure you want to clear all tasks?')) {
-
-        while(taskList.firstChild) {
-
-            taskList.removeChild(taskList.firstChild);
-
-        }
-
-    }
-
-    clearTasksFromLocalStorage();
-
-}
-
-// Clear tasks from local storage
-
-function clearTasksFromLocalStorage() {
-
-    localStorage.clear();
-
-}
-
-// Filter Tasks
-
-function filterTasks(e) {
-
-    const text = e.target.value.toLowerCase();
-
-    document.querySelectorAll('.task-list__list-item').forEach((task) => {
-
-        const item = task.firstChild.textContent;
-
-        if(item.toLowerCase().indexOf(text) != -1) {
-
-            task.style.display = 'flex';
-
-        } else {
-
-            task.style.display = 'none';
-
-        }
-
-    });
-
-}
+});

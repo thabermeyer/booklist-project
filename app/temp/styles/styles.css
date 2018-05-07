@@ -24,6 +24,20 @@ body {
   max-width: 120rem;
   margin: auto; }
 
+.alert {
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: 400;
+  padding: 1.5rem 3rem;
+  margin-bottom: 2rem;
+  text-align: center; }
+  .alert--success {
+    background-color: #c8e6c9;
+    color: #007E33; }
+  .alert--danger {
+    background-color: #ef9a9a;
+    color: #CC0000; }
+
 .header {
   width: 100%;
   padding: 3rem;
