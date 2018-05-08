@@ -9032,65 +9032,145 @@ module.exports = function (regExp, replace) {
 "use strict";
 
 
-// Book Constructor
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function Book(title, author, isbn) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* ***** ES6 METHOD ***** */
+
+var Book = function Book(title, author, isbn) {
+    _classCallCheck(this, Book);
 
     this.title = title;
     this.author = author;
     this.isbn = isbn;
-}
-
-// UI Constructor
-
-function UI() {}
-
-// Add book to list
-
-UI.prototype.addBookToList = function (book) {
-
-    var list = document.querySelector('.book__table');
-
-    list.innerHTML += '\n    \n        <div class="book__item book__item--list-item">' + book.title + '</div><div class="book__item book__item--list-item">' + book.author + '</div><div class="book__item book__item--list-item">' + book.isbn + '</div><div class="book__item book__item--list-item"><a href="#" class="book__delete">X</a></div>\n    \n    ';
 };
 
-// Clear fields
+var UI = function () {
+    function UI() {
+        _classCallCheck(this, UI);
+    }
 
-UI.prototype.clearFields = function () {
+    _createClass(UI, [{
+        key: 'addBookToList',
+        value: function addBookToList(book) {
 
-    document.getElementById('book__title').value = '';
-    document.getElementById('book__author').value = '';
-    document.getElementById('book__isbn').value = '';
-};
+            var list = document.querySelector('.book__table');
 
-// Show alert
+            list.innerHTML += '\n        \n            <div class="book__item book__item--list-item">' + book.title + '</div>\n            <div class="book__item book__item--list-item">' + book.author + '</div>\n            <div class="book__item book__item--list-item">' + book.isbn + '</div>\n            <div class="book__item book__item--list-item"><a href="#" class="book__delete">X</a></div>\n        \n        ';
+        }
+    }, {
+        key: 'showAlert',
+        value: function showAlert(message, className) {
 
-UI.prototype.showAlert = function (message, className) {
+            var div = document.createElement('div');
+            div.className = 'alert ' + className;
+            div.appendChild(document.createTextNode(message));
 
-    var div = document.createElement('div');
-    div.className = 'alert ' + className;
-    div.appendChild(document.createTextNode(message));
+            var container = document.querySelector('.container__top');
+            var form = document.querySelector('.book__form');
 
-    var container = document.querySelector('.container__top');
-    var form = document.querySelector('.book__form');
+            container.insertBefore(div, form);
 
-    container.insertBefore(div, form);
+            setTimeout(function () {
 
-    setTimeout(function () {
+                document.querySelector('.alert').remove();
+            }, 2000);
+        }
+    }, {
+        key: 'deleteBook',
+        value: function deleteBook(target) {
 
-        document.querySelector('.alert').remove();
-    }, 2000);
-};
+            target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.remove();
+            target.parentElement.previousElementSibling.previousElementSibling.remove();
+            target.parentElement.previousElementSibling.remove();
+            target.parentElement.remove();
+        }
+    }, {
+        key: 'clearFields',
+        value: function clearFields() {
 
-// Delete book from list
+            document.getElementById('book__title').value = '';
+            document.getElementById('book__author').value = '';
+            document.getElementById('book__isbn').value = '';
+        }
+    }]);
 
-UI.prototype.deleteBook = function (target) {
+    return UI;
+}();
 
-    target.parentElement.previousSibling.previousSibling.previousSibling.remove();
-    target.parentElement.previousSibling.previousSibling.remove();
-    target.parentElement.previousSibling.remove();
-    target.parentElement.remove();
-};
+// Local Storage class
+
+var Store = function () {
+    function Store() {
+        _classCallCheck(this, Store);
+    }
+
+    _createClass(Store, null, [{
+        key: 'getBooks',
+        value: function getBooks() {
+
+            var books = void 0;
+
+            if (localStorage.getItem('books') === null) {
+
+                books = [];
+            } else {
+
+                books = JSON.parse(localStorage.getItem('books'));
+            }
+
+            return books;
+        }
+    }, {
+        key: 'displayBooks',
+        value: function displayBooks() {
+
+            var books = Store.getBooks();
+
+            books.forEach(function (book) {
+
+                var ui = new UI();
+
+                // Add book to UI
+
+                ui.addBookToList(book);
+            });
+        }
+    }, {
+        key: 'addBook',
+        value: function addBook(book) {
+
+            var books = Store.getBooks();
+
+            books.push(book);
+
+            localStorage.setItem('books', JSON.stringify(books));
+        }
+    }, {
+        key: 'removeBook',
+        value: function removeBook(isbn) {
+
+            var books = Store.getBooks();
+
+            books.forEach(function (book, index) {
+
+                if (book.isbn === isbn) {
+
+                    books.splice(index, 1);
+                }
+            });
+
+            localStorage.setItem('books', JSON.stringify(books));
+        }
+    }]);
+
+    return Store;
+}();
+
+// DOM Load Event
+
+document.addEventListener('DOMContentLoaded', Store.displayBooks);
 
 // Event Listeners
 
@@ -9121,6 +9201,12 @@ document.querySelector('.book__btn').addEventListener('click', function () {
 
         ui.addBookToList(book);
 
+        // Add to LS
+
+        Store.addBook(book);
+
+        // Alert
+
         ui.showAlert('Book added', 'alert--success');
 
         // Clear input fields
@@ -9139,6 +9225,8 @@ document.querySelector('.book__table').addEventListener('click', function (e) {
 
     if (e.target.className === 'book__delete') {
 
+        Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
+
         ui.deleteBook(e.target);
 
         ui.showAlert('Book deleted', 'alert--success');
@@ -9146,6 +9234,140 @@ document.querySelector('.book__table').addEventListener('click', function (e) {
 
     e.preventDefault();
 });
+
+/* ***** ES5 METHOD *****
+
+// Book Constructor
+
+function Book(title, author, isbn) {
+
+    this.title = title;
+    this.author = author;
+    this.isbn = isbn;
+
+}
+
+// UI Constructor
+
+function UI() {}
+
+// Add book to list
+
+UI.prototype.addBookToList = function(book) {
+
+    const list = document.querySelector('.book__table');
+
+    list.innerHTML += `
+    
+        <div class="book__item book__item--list-item">${book.title}</div><div class="book__item book__item--list-item">${book.author}</div><div class="book__item book__item--list-item">${book.isbn}</div><div class="book__item book__item--list-item"><a href="#" class="book__delete">X</a></div>
+    
+    `;
+        
+}
+
+// Clear fields
+
+UI.prototype.clearFields = function() {
+
+    document.getElementById('book__title').value = '';
+    document.getElementById('book__author').value = '';
+    document.getElementById('book__isbn').value = '';
+
+}
+
+// Show alert
+
+UI.prototype.showAlert = function(message, className) {
+
+    const div = document.createElement('div');
+    div.className = `alert ${className}`;
+    div.appendChild(document.createTextNode(message));
+
+    const container = document.querySelector('.container__top');
+    const form = document.querySelector('.book__form');
+
+    container.insertBefore(div, form);
+
+    setTimeout(function() {
+
+        document.querySelector('.alert').remove();
+
+    }, 2000);
+
+}
+
+// Delete book from list
+
+UI.prototype.deleteBook = function(target) {
+
+    target.parentElement.previousSibling.previousSibling.previousSibling.remove();
+    target.parentElement.previousSibling.previousSibling.remove();
+    target.parentElement.previousSibling.remove();
+    target.parentElement.remove();
+
+}
+
+// Event Listeners
+
+document.querySelector('.book__btn').addEventListener('click', function() {
+
+    // Get form values
+
+    const title = document.getElementById('book__title').value;
+    const author = document.getElementById('book__author').value;
+    const isbn = document.getElementById('book__isbn').value;
+
+    // Instantiate book
+
+    const book = new Book(title, author, isbn);
+
+    // Instantiate UI
+
+    const ui = new UI();
+
+    // Validate
+
+    if(title === '' || author === '' || isbn === '') {
+
+        ui.showAlert('Please fill in all fields', 'alert--danger');
+
+    } else {
+
+        // Add book to list
+
+        ui.addBookToList(book);
+
+        ui.showAlert('Book added', 'alert--success');
+
+        // Clear input fields
+
+        ui.clearFields();
+
+    }
+
+});
+
+document.querySelector('.book__table').addEventListener('click', function(e) {
+
+    // Instantiate UI
+
+    const ui = new UI();
+
+    // Delete book
+
+    if(e.target.className === 'book__delete') {
+
+        ui.deleteBook(e.target);
+
+        ui.showAlert('Book deleted', 'alert--success');
+
+    }
+
+    e.preventDefault();
+
+});
+
+*/
 
 /***/ })
 /******/ ]);
