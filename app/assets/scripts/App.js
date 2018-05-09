@@ -23,7 +23,7 @@ class UI {
             <div class="book__item book__item--list-item">${book.title}</div>
             <div class="book__item book__item--list-item">${book.author}</div>
             <div class="book__item book__item--list-item">${book.isbn}</div>
-            <div class="book__item book__item--list-item"><a href="#" class="book__delete">X</a></div>
+            <div class="book__item book__item--list-item u-text-center"><a href="#" class="book__delete">X</a></div>
         
         `;
 

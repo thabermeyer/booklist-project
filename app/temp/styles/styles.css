@@ -18,11 +18,13 @@ body {
 
 .container__top {
   max-width: 60rem;
-  margin: auto; }
+  margin: auto;
+  padding: 0 3rem; }
 
 .container__bottom {
   max-width: 120rem;
-  margin: auto; }
+  margin: auto;
+  padding: 0 3rem; }
 
 .alert {
   width: 100%;
@@ -37,6 +39,9 @@ body {
   .alert--danger {
     background-color: #ef9a9a;
     color: #CC0000; }
+
+.u-text-center {
+  text-align: center; }
 
 .header {
   width: 100%;
@@ -71,7 +76,24 @@ body {
   border: none;
   background-color: #c0392b;
   color: #fff;
-  font-size: inherit; }
+  font-size: inherit;
+  cursor: pointer;
+  -webkit-transition: all .2s;
+  -o-transition: all .2s;
+  transition: all .2s; }
+  .book__btn:hover {
+    background-color: #e74c3c;
+    -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+    -webkit-transform: translateY(-0.2rem);
+        -ms-transform: translateY(-0.2rem);
+            transform: translateY(-0.2rem); }
+  .book__btn:active {
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+            transform: translateY(0); }
 
 .book__log {
   margin-top: 8rem;
@@ -79,7 +101,7 @@ body {
 
 .book__table {
   display: grid;
-  grid-template-columns: 3fr 2fr 1fr 10px; }
+  grid-template-columns: 3fr 2fr 1fr 30px; }
 
 .book__item {
   padding: 1rem 0;
@@ -89,3 +111,15 @@ body {
     font-weight: 400; }
   .book__item--list-item {
     padding: 1.5rem 0; }
+
+.book__delete {
+  cursor: pointer;
+  -webkit-transition: all .2s;
+  -o-transition: all .2s;
+  transition: all .2s;
+  text-align: center; }
+  .book__delete:link, .book__delete:visited {
+    color: inherit;
+    text-decoration: none; }
+  .book__delete:hover {
+    color: #e74c3c; }

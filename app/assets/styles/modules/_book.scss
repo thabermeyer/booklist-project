@@ -33,6 +33,24 @@
         color: #fff;
         font-size: inherit;
 
+        cursor: pointer;
+        transition: all .2s;
+
+        &:hover {
+
+            background-color: $color-primary;
+            box-shadow: 0 1rem 2rem rgba(#000, .15);
+            transform: translateY(-.2rem);
+
+        }
+
+        &:active {
+
+            box-shadow: 0 .5rem 1rem rgba(#000, .15);
+            transform: translateY(0);
+
+        }
+
     }
 
     &__log {
@@ -46,7 +64,7 @@
     &__table {
 
         display: grid;
-        grid-template-columns: 3fr 2fr 1fr 10px;
+        grid-template-columns: 3fr 2fr 1fr 30px;
 
     }
 
@@ -66,6 +84,27 @@
 
             padding: 1.5rem 0;
 
+        }
+
+    }
+
+    &__delete {
+
+        cursor: pointer;
+        transition: all .2s;
+        text-align: center;
+
+        &:link, &:visited {
+
+            color: inherit;
+            text-decoration: none;
+
+        }
+
+        &:hover {
+
+            color: $color-primary;
+            
         }
 
     }

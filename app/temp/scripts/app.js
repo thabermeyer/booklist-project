@@ -9057,7 +9057,7 @@ var UI = function () {
 
             var list = document.querySelector('.book__table');
 
-            list.innerHTML += '\n        \n            <div class="book__item book__item--list-item">' + book.title + '</div>\n            <div class="book__item book__item--list-item">' + book.author + '</div>\n            <div class="book__item book__item--list-item">' + book.isbn + '</div>\n            <div class="book__item book__item--list-item"><a href="#" class="book__delete">X</a></div>\n        \n        ';
+            list.innerHTML += '\n        \n            <div class="book__item book__item--list-item">' + book.title + '</div>\n            <div class="book__item book__item--list-item">' + book.author + '</div>\n            <div class="book__item book__item--list-item">' + book.isbn + '</div>\n            <div class="book__item book__item--list-item u-text-center"><a href="#" class="book__delete">X</a></div>\n        \n        ';
         }
     }, {
         key: 'showAlert',
